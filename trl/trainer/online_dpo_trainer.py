@@ -159,6 +159,9 @@ class OnlineDPOTrainer(Trainer):
             )
 
         self.ref_model = ref_model
+        self.reward_model = reward_model
+        self.reward_processing_class = reward_processing_class
+        self.judge = judge
 
         if reward_model is not None and judge is not None:
             warnings.warn(
@@ -169,10 +172,6 @@ class OnlineDPOTrainer(Trainer):
             judge = None
         elif reward_model is None and judge is None:
             raise ValueError("Either `reward_model` or `judge` must be provided.")
-
-        self.reward_model = reward_model
-        self.reward_processing_class = reward_processing_class
-        self.judge = judge
 
         if args.missing_eos_penalty is not None and judge is not None:
             raise ValueError("`missing_eos_penalty` is not supported when `judge` is provided.")
